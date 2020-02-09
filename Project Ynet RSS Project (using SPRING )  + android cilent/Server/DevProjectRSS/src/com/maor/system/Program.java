@@ -1,4 +1,4 @@
-package com.jb.system;
+package com.maor.system;
 
 public class Program {
 

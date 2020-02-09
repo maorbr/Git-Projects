@@ -1,12 +1,12 @@
-package com.jb.system;
+package com.maor.system;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import com.jb.beans.RSSNews;
-import com.jb.tasks.RSSTask;
-import com.jb.ui.RSSMenu;
-import com.jb.util.RSSFetcher;
+import com.maor.beans.RSSNews;
+import com.maor.tasks.RSSTask;
+import com.maor.ui.RSSMenu;
+import com.maor.util.RSSFetcher;
 
 public class RSSSystem {
 	public static RSSTask rssTask;

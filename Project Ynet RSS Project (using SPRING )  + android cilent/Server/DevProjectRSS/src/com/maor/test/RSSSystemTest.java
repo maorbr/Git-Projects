@@ -1,4 +1,4 @@
-package com.jb.test;
+package com.maor.test;
 
 import static org.junit.Assert.*;
 import java.io.IOException;
@@ -10,9 +10,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.Before;
 import org.junit.Test;
-import com.jb.beans.RSSNews;
-import com.jb.system.RSSSystem;
-import com.jb.util.RSSFetcher;
+import com.maor.beans.RSSNews;
+import com.maor.system.RSSSystem;
+import com.maor.util.RSSFetcher;
 
 public class RSSSystemTest {
 	private String strUrl = "https://www.ynet.co.il/3rdparty/mobile/rss/ynetnews/3082/";

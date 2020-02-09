@@ -1,4 +1,4 @@
-package com.johnbryce.newsfeedreader;
+package com.maor.newsfeedreader;
 
 import org.junit.Test;
 

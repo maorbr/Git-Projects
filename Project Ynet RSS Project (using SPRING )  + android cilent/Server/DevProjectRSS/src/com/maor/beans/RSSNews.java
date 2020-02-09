@@ -1,4 +1,4 @@
-package com.jb.beans;
+package com.maor.beans;
 
 import java.util.Calendar;
 

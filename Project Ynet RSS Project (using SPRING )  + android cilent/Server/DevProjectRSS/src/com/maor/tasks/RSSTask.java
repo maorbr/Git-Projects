@@ -1,8 +1,8 @@
-package com.jb.tasks;
+package com.maor.tasks;
 
 import java.util.Calendar;
-import com.jb.system.RSSSystem;
-import com.jb.ui.RSSMenu;
+import com.maor.system.RSSSystem;
+import com.maor.ui.RSSMenu;
 
 public class RSSTask implements Runnable {
 	private boolean quit = false;

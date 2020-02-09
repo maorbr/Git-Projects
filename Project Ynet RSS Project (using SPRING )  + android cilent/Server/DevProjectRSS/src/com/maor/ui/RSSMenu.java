@@ -1,11 +1,11 @@
-package com.jb.ui;
+package com.maor.ui;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import com.jb.system.RSSSystem;
+import com.maor.system.RSSSystem;
 
 public class RSSMenu {
 	private final RSSSystem rssSystem;

@@ -1,0 +1,10 @@
+using Eclipse:
+Spring boot RESTful service + swagger + h2 db (server side):
+
+Swagger page: http://localhost:8080//swagger-ui.html
+
+h2 db console page: http://[IP address]:8080//h2-console http://localhost:8080/h2-console
+h2 db login creddational:
+url=jdbc:h2:mem:OpenLegacyDB
+username=maor
+password= 

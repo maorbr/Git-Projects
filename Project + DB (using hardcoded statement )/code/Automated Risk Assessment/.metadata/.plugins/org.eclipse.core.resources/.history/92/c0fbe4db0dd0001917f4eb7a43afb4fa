@@ -1,0 +1,242 @@
+package com.hit.sapiens.riskassessment.ui;
+
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import com.hit.sapiens.riskassessment.beans.Antivirus;
+import com.hit.sapiens.riskassessment.beans.RiskEvent;
+import com.hit.sapiens.riskassessment.dao.AntivirusDAO;
+import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.awt.event.ActionEvent;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
+import java.awt.SystemColor;
+import javax.swing.JList;
+import java.awt.Color;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.JLabel;
+
+public class RiskAssessmentApp {
+
+	private AntivirusDAO antivirusDAO;
+	private Map<String, Antivirus> virusEventsMap;
+	private JFrame frame;
+	private JTable tableVirus;
+	private JList<String> listRisksUsers;
+	private JLabel lblDbStatusAntiTab;
+	private JLabel lblDbStatusStatTab;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					RiskAssessmentApp window = new RiskAssessmentApp();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public RiskAssessmentApp() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 800, 600);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
+
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+
+		JMenu mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+
+		JMenu mnFromDB = new JMenu("Load From DB...");
+		mnFile.add(mnFromDB);
+
+		JMenuItem mntmAntivirus = new JMenuItem("Load Antivirus"); // load AntivirusFrom DB
+		mntmAntivirus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loadDataFromDB();
+			}
+		});
+		mnFromDB.add(mntmAntivirus);
+
+		JMenu mnFromFile = new JMenu("Load From File...");
+		mnFile.add(mnFromFile);
+
+		JMenuItem mntmExit = new JMenuItem("Exit");
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(JFrame.EXIT_ON_CLOSE);
+			}
+		});
+		mnFile.add(mntmExit);
+
+		JMenu mnTools = new JMenu("Tools");
+		menuBar.add(mnTools);
+
+		JMenu mnHelp = new JMenu("Help");
+		menuBar.add(mnHelp);
+
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
+
+		JPanel panelStatistics = new JPanel();
+		tabbedPane.addTab("Statistics", null, panelStatistics, null);
+		panelStatistics.setLayout(null);
+
+		lblDbStatusStatTab = new JLabel("Database Connection: Offline");
+		lblDbStatusStatTab.setForeground(Color.RED);
+		lblDbStatusStatTab.setBounds(592, 491, 182, 14);
+		panelStatistics.add(lblDbStatusStatTab);
+
+		JPanel panelAntivirus = new JPanel();
+		tabbedPane.addTab("Antivirus", null, panelAntivirus, null);
+		panelAntivirus.setLayout(null);
+
+		JPanel panelRisk = new JPanel();
+		panelRisk.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Risk Events:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 120, 215)));
+		panelRisk.setBounds(4, 25, 770, 455);
+		panelAntivirus.add(panelRisk);
+		panelRisk.setLayout(null);
+
+		JButton btnGetRisks = new JButton("Show All Virus Events");
+		btnGetRisks.setBounds(581, 16, 180, 23);
+		panelRisk.add(btnGetRisks);
+		btnGetRisks.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (virusEventsMap != null) {
+					try {
+						virusEventsMap = antivirusDAO.getAllRiskEvents();			
+						fetchEventsToTable(tableVirus, virusEventsMap);
+					} catch (SQLException e) {
+						JOptionPane.showMessageDialog(frame, "No DB/File has import.", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(frame, "No DB/File has import.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		JScrollPane scrollPanelRisk = new JScrollPane();
+		scrollPanelRisk.setBounds(6, 16, 565, 428);
+		panelRisk.add(scrollPanelRisk);
+
+		tableVirus = new JTable();
+		scrollPanelRisk.setViewportView(tableVirus);
+
+		JPanel panelUserRisk = new JPanel();
+		panelUserRisk.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Users",
+				TitledBorder.LEADING, TitledBorder.TOP, null, SystemColor.windowBorder));
+		panelUserRisk.setBounds(588, 46, 162, 398);
+		panelRisk.add(panelUserRisk);
+		panelUserRisk.setLayout(null);
+
+		JButton btnRiskUsers = new JButton("Filter By User");
+		btnRiskUsers.setBackground(UIManager.getColor("Button.background"));
+		btnRiskUsers.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+//				if (virusEventsMap != null) {
+//					try {
+//						virusEventsMap = antivirusDAO.getByUserSecurityRiskAntivrusLogs(listVirusUsers.getSelectedValue());
+//					} catch (SQLException e) {
+//						JOptionPane.showMessageDialog(frame, "No DB/File has import. " + e, "Error",
+//								JOptionPane.ERROR_MESSAGE);
+//					}
+//					fetchEventsToTable(tableVirus, virusMap);
+//				} else {
+//					JOptionPane.showMessageDialog(frame, "No DB/File has import.", "Error", JOptionPane.ERROR_MESSAGE);
+//				}
+			}
+		});
+		btnRiskUsers.setBounds(6, 364, 150, 23);
+		panelUserRisk.add(btnRiskUsers);
+				
+				JScrollPane scrollPaneUsers = new JScrollPane();
+				scrollPaneUsers.setBounds(6, 22, 148, 331);
+				panelUserRisk.add(scrollPaneUsers);
+		
+				listRisksUsers = new JList<>();
+				scrollPaneUsers.setViewportView(listRisksUsers);
+				listRisksUsers.setForeground(UIManager.getColor("List.foreground"));
+				listRisksUsers.setBackground(UIManager.getColor("List.background"));
+
+		lblDbStatusAntiTab = new JLabel("Database Connection: Offline");
+		lblDbStatusAntiTab.setForeground(new Color(255, 0, 0));
+		lblDbStatusAntiTab.setBounds(592, 491, 182, 14);
+		panelAntivirus.add(lblDbStatusAntiTab);
+	}
+
+	void fetchEventsToTable(JTable table, Map<String, Antivirus> Map) {
+		AntivirusTableModel model = new AntivirusTableModel(Map);
+		table.setModel(model);
+		table.getColumnModel().getColumn(1).setPreferredWidth(300);
+	}
+
+	void fetchUsersToList(JList<String> list, Map<String, Antivirus> Map) {
+//		try {
+//			Set<String> SetUsers = Map.keySet();
+//			DefaultListModel<String> dlm = new DefaultListModel<>();
+//
+//			List<String> users = new ArrayList<>(SetUsers);
+//			Collections.sort(users, String.CASE_INSENSITIVE_ORDER);
+//
+//			for (String user : users) {
+//				dlm.addElement(user);
+//			}
+//			list.setModel(dlm);
+//		} catch (Exception e) {
+//			JOptionPane.showMessageDialog(frame, "Error: " + e, "Error", JOptionPane.ERROR_MESSAGE);
+//		}
+	}
+
+	void loadDataFromDB() {
+		try {
+			antivirusDAO = new AntivirusDAO();
+			virusEventsMap = antivirusDAO.getAllRiskEvents();
+			fetchEventsToTable(tableVirus, virusEventsMap);
+			fetchUsersToList(listRisksUsers, virusEventsMap);
+			lblDbStatusAntiTab.setText("Database Connection: Online");
+			lblDbStatusAntiTab.setForeground(new Color(0, 100, 0));
+			lblDbStatusStatTab.setText("Database Connection: Online");
+			lblDbStatusStatTab.setForeground(new Color(0, 100, 0));
+			JOptionPane.showMessageDialog(frame, "Connected", "Pass", JOptionPane.INFORMATION_MESSAGE);
+		} catch (Exception exc) {
+			JOptionPane.showMessageDialog(frame, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+}

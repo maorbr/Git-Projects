@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="org.jfree.chart.plot.PlotOrientation"/>
+<fullyQualifiedTypeName name="org.jfree.chart.plot.CategoryPlot"/>
+<fullyQualifiedTypeName name="org.jfree.chart.plot.PiePlot3D"/>
+<fullyQualifiedTypeName name="org.jfree.data.general.DefaultPieDataset"/>
+<fullyQualifiedTypeName name="java.lang.Comparable"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="java.awt.Stroke"/>
+<fullyQualifiedTypeName name="javax.swing.JPanel"/>
+<fullyQualifiedTypeName name="java.awt.Color"/>
+<fullyQualifiedTypeName name="com.hit.sapiens.riskassessment.beans.AntivirusCategory"/>
+<fullyQualifiedTypeName name="java.sql.DriverManager"/>
+<fullyQualifiedTypeName name="com.hit.sapiens.riskassessment.dao.DBTable"/>
+<fullyQualifiedTypeName name="com.hit.sapiens.riskassessment.beans.EmailRiskEvent"/>
+<fullyQualifiedTypeName name="com.hit.sapiens.riskassessment.beans.Email"/>
+</qualifiedTypeNameHistroy>

@@ -1,0 +1,60 @@
+1567935193777	Rename type 'AntivirusRiskEnum'
+1567936115535	Rename method 'getMalwareList'
+1567936152184	Rename method 'getAmount'
+1567936869613	Rename local variable 'sumRisks'
+1567937009053	Rename method 'getByUserVirusEventsList'
+1567937198522	Rename method 'convertRowToAntivirus'
+1567937234821	Rename method 'convertDBRowToAntivirusEntiy'
+1567954887493	Rename resource 'risk_assessment.properties'
+1567955100775	Copy file
+1567956287586	Rename type 'Database'
+1567956325649	Rename type 'DatabaseSystem'
+1567966996051	Move file
+1567967021392	Delete element
+1567974369281	Delete elements
+1567975385181	Delete element
+1567978749804	Delete element
+1567979013382	Delete element
+1567979066669	Delete element
+1567980669192	Rename enum constant 'MYSQL'
+1567980680953	Rename enum constant 'MSSQLSERVER'
+1567980687890	Rename enum constant 'FLATDB'
+1568095175506	Rename field 'framRisk'
+1568110536051	Rename type 'CSVUtils'
+1568111405017	Rename type 'AntivirusCSVUtils'
+1568120938670	Rename local variable 'relevantHeadersForAntivirus'
+1568120958296	Rename local variable 'relevantFieldsForAntivirus'
+1568120971402	Rename local variable 'antivirusHeader'
+1568120987959	Rename local variable 'relevantHeadersForRiskEvent'
+1568122504018	Encapsulate field 'userName'
+1568122793366	Rename local variable 'user'
+1568123433634	Encapsulate field 'userName'
+1568140401075	Rename local variable 'user'
+1568141711115	Delete element
+1568141730637	Delete element
+1568141885204	Delete element
+1568141961363	Delete element
+1568142200008	Delete element
+1568142356889	Delete element
+1568142634555	Delete element
+1568144197369	Delete element
+1568144215079	Delete element
+1568144267452	Move folder
+1568189284998	Delete element
+1568189298370	Delete element
+1568189318647	Move files
+1568197522173	Rename resource 'flatdb.antivirus.configurations'
+1568197998813	Rename resource 'db.antivirus.configurations'
+1568198174972	Rename resource 'mssqlserver-risk_assessment.properties'
+1568198371861	Rename resource 'mssqlserverrisk_assessment.properties'
+1568199543015	Rename local variable 'user'
+1568200059560	Rename field 'lblServerLoginAntivirus'
+1568200233214	Rename field 'lblDbStatusStatTab'
+1568200241755	Rename field 'lblDbStatusAntiTab'
+1568200248791	Rename field 'lblDbStatusEmailTab'
+1568200383627	Rename field 'lblCountMalware'
+1568200390147	Rename field 'lblCountVirus'
+1568209839302	Delete element
+1568209951651	Delete element
+1568210118799	Delete element
+1568299543521	Delete elements

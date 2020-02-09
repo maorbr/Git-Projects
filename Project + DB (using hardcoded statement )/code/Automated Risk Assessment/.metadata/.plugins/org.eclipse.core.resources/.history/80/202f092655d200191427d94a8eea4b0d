@@ -1,0 +1,109 @@
+package com.hit.sapiens.riskassessment.dao;
+
+import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.TimeZone;
+
+import com.hit.sapiens.riskassessment.beans.Antivirus;
+import com.hit.sapiens.riskassessment.beans.RiskEvent;
+
+public class AntivirusDAO {
+	private Connection connectionToDB;
+	private Map<String, Antivirus> antivirusEvents;
+
+	public AntivirusDAO(DBSystem dbSystem) throws Exception {
+		try {
+			if (dbSystem.equals(DBSystem.MYSQL)) {
+
+				Properties props = new Properties();
+				props.load(new FileInputStream("mysql-risk_assessment.properties"));
+
+				String user = props.getProperty("user");
+				String password = props.getProperty("password");
+				String dburl = props.getProperty("dburl") + "?serverTimezone=" + TimeZone.getDefault().getID();
+
+				// connect to database
+				connectionToDB = DriverManager.getConnection(dburl, user, password);
+
+				System.out.println("Employee DAO - DB connection successful to: " + dburl);
+			} else {
+				Properties props = new Properties();
+				props.load(new FileInputStream("mssqlserver-risk_assessment.properties"));
+
+				String user = props.getProperty("user");
+				String password = props.getProperty("password");
+				String dburl = props.getProperty("dburl");
+
+				// the sql server driver string
+				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+				// connect to database
+				connectionToDB = DriverManager.getConnection(dburl, user, password);
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			System.exit(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.exit(2);
+		}
+
+	}
+
+	public Map<String, Antivirus> loadRiskEventsFromDB() throws SQLException {
+		antivirusEvents = new HashMap<>();
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
+		try {
+			String sql = "SELECT DISTINCT File_Name, User_Name, Virus_Name, Category_set" + " FROM antivirus"
+					+ " WHERE Virus_Name Like '%Risk name:%'";
+
+			preparedStatement = connectionToDB.prepareStatement(sql);
+			result = preparedStatement.executeQuery();
+
+			while (result.next()) {
+				Antivirus antivirus = convertDBRowToAntivirusEntity(result);
+				if (antivirusEvents.containsKey(antivirus.getUser())) {
+					antivirusEvents.get(antivirus.getUser()).getRiskEvents().addAll((antivirus.getRiskEvents()));
+				} else {
+					antivirusEvents.put(antivirus.getUser(), antivirus);
+				}
+			}
+		} finally {
+			DAOUtils.close(preparedStatement, result);
+		}
+		return antivirusEvents;
+	}
+
+	public Antivirus getAntivirusByUser(String user) {
+		return antivirusEvents.get(user);
+	}
+
+	private Antivirus convertDBRowToAntivirusEntity(ResultSet result) throws SQLException {
+
+		ArrayList<RiskEvent> riskEvents = new ArrayList<>();
+
+		String user = result.getString("User_Name").substring(6);
+
+		String fileName = result.getString("File_Name");
+		String virusName = result.getString("Virus_Name").substring(11);
+		String category = result.getString("Category_set").substring(14);
+		riskEvents.add(new RiskEvent(fileName, virusName, category));
+
+		return new Antivirus(user, riskEvents);
+	}
+
+	public Set<String> getUserList() {
+
+		return antivirusEvents.keySet();
+	}
+}

@@ -1,0 +1,261 @@
+package com.hit.sapiens.riskassessment.dao;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.TimeZone;
+import java.util.stream.Collectors;
+import java.util.Map.Entry;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import com.hit.sapiens.riskassessment.beans.Antivirus;
+import com.hit.sapiens.riskassessment.beans.AntivirusCategory;
+import com.hit.sapiens.riskassessment.beans.Email;
+import com.hit.sapiens.riskassessment.beans.EmailRiskEvent;
+import com.hit.sapiens.riskassessment.beans.AntivirusRiskEvent;
+
+public class AntivirusDAO {
+	private Connection connectionToDB;
+	private Map<String, Antivirus> antivirusEvents;
+	private Map<String, Email> emailEvents;
+
+	public AntivirusDAO(DBSystem dbSystem, DBTable dbTable)
+			throws FileNotFoundException, IOException, SQLException, ClassNotFoundException {
+		initializeConnectionToDB(dbSystem,dbTable);
+	}
+	private void initializeConnectionToDB(DBSystem dbSystem, DBTable dbTable)
+			throws FileNotFoundException, IOException, SQLException, ClassNotFoundException {
+		if (dbSystem.equals(DBSystem.MY_SQL)) {
+			Properties props = new Properties();
+			props.load(new FileInputStream(".\\config\\mysql-risk_assessment.properties"));
+
+			String user = props.getProperty("USER");
+			String password = props.getProperty("PASSWORD");
+			String dburl = props.getProperty("DB_URL") + "?serverTimezone=" + TimeZone.getDefault().getID();
+
+			connectionToDB = DriverManager.getConnection(dburl, user, password);
+			System.out.println("DAO - DB connection successful to MySQL: " + dburl);
+			
+			if (dbTable.equals(DBTable.ANTIVIRUS)) {
+				loadDataFromAntivrusDB();
+			}else {
+				loadDataFromEmailDB();
+			}
+		} else if (dbSystem.equals(DBSystem.MS_SQL_SERVER)) {
+			Properties props = new Properties();
+			props.load(new FileInputStream(".\\config\\mssqlserver-risk_assessment.properties"));
+
+			String user = props.getProperty("USER");
+			String password = props.getProperty("PASSWORD");
+			String dburl = props.getProperty("DB_URL");
+
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+			connectionToDB = DriverManager.getConnection(dburl, user, password);
+			System.out.println("DAO - DB connection successful to MSSQL Server: " + dburl);
+			
+			if (dbTable.equals(DBTable.ANTIVIRUS)) {
+				loadDataFromAntivrusDB();
+			}else {
+				loadDataFromEmailDB();
+			}
+		} else {
+			if (dbTable.equals(DBTable.ANTIVIRUS)) {
+				loadDataFlatAntivirusDB();
+			}else {
+				//email
+			}
+		}
+	}
+	
+	private void loadDataFromAntivrusDB() throws SQLException {
+		antivirusEvents = new HashMap<>();
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
+		try {
+			String sql = "SELECT DISTINCT File_Name, User_Name, Virus_Name, Category_set" + " FROM antivirus"
+					+ " WHERE Virus_Name Like '%Risk name:%'";
+
+			preparedStatement = connectionToDB.prepareStatement(sql);
+			result = preparedStatement.executeQuery();
+
+			while (result.next()) {
+				Antivirus antivirus = convertDBRowToAntivirusEntity(result);
+				if (antivirusEvents.containsKey(antivirus.getUserName())) {
+					antivirusEvents.get(antivirus.getUserName()).getRiskEvents().addAll((antivirus.getRiskEvents()));
+				} else {
+					antivirusEvents.put(antivirus.getUserName(), antivirus);
+				}
+			}
+		} finally {
+			DAOUtils.close(preparedStatement, result);
+		}
+	}
+	
+	private void loadDataFromEmailDB() throws SQLException {
+		emailEvents = new HashMap<>();
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
+		try {
+			String sql = "SELECT Category, REGEXP_SUBSTR(Details, 'externalId=[^[[:space:]]]*') as id, REGEXP_SUBSTR(Details, 'msg=(Delete file|Delete folder|Access file|Modify file)') as msg,REGEXP_SUBSTR(Details, 'suser=[^[[:space:]]]*') as users" 
+					+ " FROM (SELECT * FROM risk_assessment.email WHERE Details REGEXP 'msg=(Delete file|Delete folder|Access|Modify)') AS t;";
+
+			preparedStatement = connectionToDB.prepareStatement(sql);
+			result = preparedStatement.executeQuery();
+
+			while (result.next()) {
+				Email email = convertDBRowToEmailEntity(result);
+				if (emailEvents.containsKey(email.getUserName())) {
+					emailEvents.get(email.getUserName()).getRiskEvents().addAll((email.getRiskEvents()));
+				} else {
+					emailEvents.put(email.getUserName(), email);
+				}
+			}
+		} finally {
+			DAOUtils.close(preparedStatement, result);
+		}
+	}
+
+	private void loadDataFlatAntivirusDB() throws IOException {
+		JFileChooser chooser = new JFileChooser(".\\inputs");
+		chooser.setFileFilter(new FileNameExtensionFilter("*.csv, *.txt", "csv", "txt"));
+		int status = chooser.showOpenDialog(null);
+		if (status == JFileChooser.APPROVE_OPTION) {
+			Properties props = new Properties();
+			props.load(new FileInputStream(".\\config\\flatdb.antivirus.configurations"));
+
+			String allHeaders = props.getProperty("ALL_HEADERS").trim();
+			String relevantHeaders = props.getProperty("RELEVENT_HEADERS").trim();
+			String relevantFields = props.getProperty("RELEVENT_FIELDS").trim();
+
+			antivirusEvents = new HashMap<>();
+			String filePath = null;
+			File file = chooser.getSelectedFile();
+			filePath = file.getAbsolutePath();
+
+			if (filePath != null) {
+				String[] Headers = allHeaders.split(",");
+
+				CSVUtils.writeHeaderToFile(filePath, Headers);
+
+				String[] riskEventHeaders = relevantHeaders.split(",");
+				String[] riskEventFields = relevantFields.split(",");
+
+				List<AntivirusRiskEvent> riskEventList = CSVUtils
+						.parseCSVToBeanList(AntivirusRiskEvent.class, filePath, riskEventHeaders, riskEventFields).stream()
+						.filter(CSVUtils.distinctByKeys(AntivirusRiskEvent::getFileName, AntivirusRiskEvent::getVirusName,
+								AntivirusRiskEvent::getUserName))
+						.collect(Collectors.toList());
+
+				for (AntivirusRiskEvent riskEvent : riskEventList) {
+					if (riskEvent.getVirusName().contains("Risk name:")) {
+						Antivirus antivirus = convertCsvRowToAntivirusEntity(riskEvent);
+						if (antivirusEvents.containsKey(antivirus.getUserName())) {
+							antivirusEvents.get(antivirus.getUserName()).getRiskEvents()
+									.addAll((antivirus.getRiskEvents()));
+						} else {
+							antivirusEvents.put(antivirus.getUserName(), antivirus);
+						}
+					}
+				}
+				CSVUtils.removeHeaderFromFile(filePath);
+			}
+		} else if (status == JFileChooser.CANCEL_OPTION) {
+			return;
+		} else if (status == JFileChooser.ERROR_OPTION) {
+			throw new IOException();
+		} else {
+
+		}
+	}
+	
+	private Antivirus convertDBRowToAntivirusEntity(ResultSet result) throws SQLException {
+
+		ArrayList<AntivirusRiskEvent> riskEvents = new ArrayList<>();
+
+		String userName = result.getString("User_Name").substring(6);
+		String fileName = result.getString("File_Name");
+		String virusName = result.getString("Virus_Name").substring(11);
+		String category = result.getString("Category_set").substring(14);
+		riskEvents.add(new AntivirusRiskEvent(fileName, virusName, category, userName));
+
+		return new Antivirus(userName, riskEvents);
+	}
+	
+	private Email convertDBRowToEmailEntity(ResultSet result) throws SQLException {
+		
+		ArrayList<EmailRiskEvent> riskEvents = new ArrayList<>();
+
+		String userName = result.getString("users").substring(6);
+		String id = result.getString("id").substring(11);
+		String msg = result.getString("msg").substring(4);
+		String category = result.getString("Category");
+		riskEvents.add(new EmailRiskEvent(id, msg, category, userName));
+
+		return new Email(userName, riskEvents);
+	}
+	
+	private Antivirus convertCsvRowToAntivirusEntity(AntivirusRiskEvent riskEvent) {
+		ArrayList<AntivirusRiskEvent> riskEvents = new ArrayList<>();
+
+		String userName = riskEvent.getUserName().substring(6);
+		String fileName = riskEvent.getFileName();
+		String virusName = riskEvent.getVirusName().substring(11);
+		String category = riskEvent.getCategory().substring(14);
+		riskEvents.add(new AntivirusRiskEvent(fileName, virusName, category, userName));
+
+		return new Antivirus(userName, riskEvents);
+	}
+
+	public Map<String, Antivirus> getAntivirusEvents() {
+		return antivirusEvents;
+	}
+
+	public Antivirus getAntivirusByUser(String userName) {
+		return antivirusEvents.get(userName);
+	}
+
+	public Set<String> getAllAntivirusUserNames() {
+		return antivirusEvents.keySet();
+	}
+
+	public List<AntivirusRiskEvent> getAllAntivirusRiskEvents() {
+		List<AntivirusRiskEvent> riskEvents = new ArrayList<>();
+
+		for (Entry<String, Antivirus> entry : antivirusEvents.entrySet()) {
+			for (AntivirusRiskEvent riskEvent : entry.getValue().getRiskEvents()) {
+				riskEvents.add(riskEvent);
+			}
+		}
+		return riskEvents;
+	}
+
+	public int getSumOfAntivirusRiskEvents(AntivirusCategory category) {
+		int sumVirus = 0;
+
+		for (Entry<String, Antivirus> entry : antivirusEvents.entrySet()) {
+			if (category.equals(AntivirusCategory.MALWARE)) {
+				sumVirus += entry.getValue().getAmountByCategory(AntivirusCategory.MALWARE);
+			} else {
+				sumVirus += entry.getValue().getAmountByCategory(AntivirusCategory.VIRUS);
+			}
+		}
+		return sumVirus;
+	}
+	
+	
+	
+
+}

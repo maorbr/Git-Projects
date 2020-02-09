@@ -1,0 +1,8 @@
+package com.hit.sapiens.riskassessment.beans;
+
+import java.util.List;
+
+public class Email {
+	private String userName;
+	private List<AntivirusRiskEvent> riskEvents;
+}

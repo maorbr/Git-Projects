@@ -1,0 +1,12 @@
+package com.hit.sapiens.riskassessment.dao;
+
+import java.sql.Connection;
+import java.util.Map;
+
+import com.hit.sapiens.riskassessment.beans.Antivirus;
+import com.hit.sapiens.riskassessment.beans.Email;
+
+public class EmailDAO {
+	private Connection connectionToDB;
+	private Map<String, Email> emailEvents;
+}

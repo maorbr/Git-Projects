@@ -1,0 +1,5 @@
+ALL_HEADERS= Server_Name,IP_Address,Computer_name,Local_IP,Local_Amount,Local_MAC,Remote_IP,Remote_Domain,Remote_Amount,Source,Virus_Name,Amount_Of_Events,File_Name,End,Occurrences,Application,Rule,Date,Inserted,Domain,Action,Signature,Group,Server,User_Name,Source_computer,Source_IP,Disposition,Download_site,Web_domain,Downloaded_by,Prevalence,Confidence,URL_Tracking_Status,URL_Tracking,First_Seen,Sensitivity,Actual_action,Application_hash,Hash_type,Company_name,Application_name,Application_version,Application_type,File_size,Category_set,Category_type,Location,Location_Template
+
+RELEVENT_HEADERS= User_Name,File_Name,Virus_Name,Category_set
+
+RELEVENT_FIELDS= userName,fileName,virusName,category

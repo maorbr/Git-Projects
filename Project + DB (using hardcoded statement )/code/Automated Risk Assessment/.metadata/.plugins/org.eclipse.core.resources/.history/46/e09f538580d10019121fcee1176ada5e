@@ -1,0 +1,507 @@
+package com.hit.sapiens.riskassessment.ui;
+
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import com.hit.sapiens.riskassessment.beans.Antivirus;
+import com.hit.sapiens.riskassessment.beans.RiskEvent;
+import com.hit.sapiens.riskassessment.dao.AntivirusDAO;
+import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+import java.awt.event.ActionEvent;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
+import javax.swing.JList;
+import java.awt.Color;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.JLabel;
+import javax.swing.border.EtchedBorder;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import java.awt.Font;
+import java.awt.Paint;
+
+import javax.swing.event.ListSelectionListener;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.data.general.DefaultPieDataset;
+
+import javax.swing.event.ListSelectionEvent;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
+import javax.swing.JSeparator;
+
+public class RiskAssessmentApp {
+
+	private AntivirusDAO antivirusDAO;
+	private Map<String, Antivirus> antivirusEvents;
+	private JFrame framRisk;
+	private JList<String> listRisksUsers;
+	private JLabel lblDbStatusAntiTab;
+	private JLabel lblDbStatusStatTab;
+	private JTable tableDetails;
+	private JLabel lblCountMalware;
+	private JLabel lblCountVirus;
+	private JLabel lblShowUserSelected;
+	private JLabel labelVirusAmountStat;
+	private JLabel labelMalwareAmountStat;
+	private JPanel panelStatistics;
+	private JPanel panelPieChart;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					RiskAssessmentApp window = new RiskAssessmentApp();
+					window.framRisk.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public RiskAssessmentApp() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		framRisk = new JFrame();
+		framRisk.setIconImage(
+				Toolkit.getDefaultToolkit().getImage(RiskAssessmentApp.class.getResource("/antivirus-icon.png")));
+		framRisk.setTitle("Automated Risk Assessment");
+		framRisk.setResizable(false);
+		framRisk.setBounds(100, 100, 800, 600);
+		framRisk.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		framRisk.setLocationRelativeTo(null);
+
+		JMenuBar menuBar = new JMenuBar();
+		framRisk.setJMenuBar(menuBar);
+
+		JMenu mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+
+		JMenu mnFromDB = new JMenu("Load From DB...");
+		mnFromDB.setIcon(new ImageIcon(
+				RiskAssessmentApp.class.getResource("/javax/swing/plaf/metal/icons/ocean/hardDrive.gif")));
+		mnFile.add(mnFromDB);
+
+		JMenuItem mntmAntivirus = new JMenuItem("Antivirus DB");
+		mntmAntivirus.setIcon(new ImageIcon(
+				RiskAssessmentApp.class.getResource("/com/sun/java/swing/plaf/windows/icons/DetailsView.gif")));
+		mntmAntivirus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loadDataFromDB();
+			}
+		});
+		mnFromDB.add(mntmAntivirus);
+
+		JMenu mnFromFile = new JMenu("Load From File...");
+		mnFromFile.setIcon(new ImageIcon(
+				RiskAssessmentApp.class.getResource("/com/sun/java/swing/plaf/windows/icons/NewFolder.gif")));
+		mnFile.add(mnFromFile);
+
+		JMenuItem mntmFaltDbCsv = new JMenuItem("CSV File");
+		mntmFaltDbCsv.setIcon(
+				new ImageIcon(RiskAssessmentApp.class.getResource("/com/sun/java/swing/plaf/windows/icons/File.gif")));
+		mnFromFile.add(mntmFaltDbCsv);
+
+		JMenuItem mntmExit = new JMenuItem("Exit");
+		mntmExit.setIcon(
+				new ImageIcon(RiskAssessmentApp.class.getResource("/javax/swing/plaf/metal/icons/ocean/minimize.gif")));
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(JFrame.EXIT_ON_CLOSE);
+			}
+		});
+		mnFile.add(mntmExit);
+
+		JMenu mnTools = new JMenu("Tools");
+		menuBar.add(mnTools);
+
+		JMenuItem mntmOptions = new JMenuItem("Options");
+		mntmOptions.setIcon(
+				new ImageIcon(RiskAssessmentApp.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
+		mnTools.add(mntmOptions);
+
+		JMenu mnHelp = new JMenu("Help");
+		menuBar.add(mnHelp);
+
+		JMenuItem mntmAbout = new JMenuItem("About Automated Risk Assessment");
+		mntmAbout.setIcon(new ImageIcon(RiskAssessmentApp.class.getResource("/Actions-help-about-icon.png")));
+		mnHelp.add(mntmAbout);
+
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+		framRisk.getContentPane().add(tabbedPane, BorderLayout.CENTER);
+
+		panelStatistics = new JPanel();
+		tabbedPane.addTab("Statistics", new ImageIcon(RiskAssessmentApp.class.getResource("/chart-icon.png")),
+				panelStatistics, null);
+		panelStatistics.setLayout(null);
+
+		panelStatistics.setLayout(new BorderLayout());
+
+		lblDbStatusStatTab = new JLabel("Offline");
+		lblDbStatusStatTab.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblDbStatusStatTab.setForeground(Color.RED);
+		lblDbStatusStatTab.setBounds(735, 493, 45, 14);
+		panelStatistics.add(lblDbStatusStatTab);
+
+		JPanel panelRiskScore = new JPanel();
+		panelRiskScore.setLayout(null);
+		panelRiskScore.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		panelRiskScore.setBounds(0, 0, 783, 487);
+		panelStatistics.add(panelRiskScore);
+
+		JLabel lblNewLabel = new JLabel("Risk Score");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblNewLabel.setBounds(10, 11, 160, 36);
+		panelRiskScore.add(lblNewLabel);
+
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 57, 763, 13);
+		panelRiskScore.add(separator);
+
+		JLabel lblAmountStat = new JLabel("Amount");
+		lblAmountStat.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblAmountStat.setBounds(155, 98, 73, 36);
+		panelRiskScore.add(lblAmountStat);
+
+		JLabel lblBuisnessRisk = new JLabel("Buisness Risk");
+		lblBuisnessRisk.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblBuisnessRisk.setBounds(365, 98, 120, 36);
+		panelRiskScore.add(lblBuisnessRisk);
+
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(155, 133, 320, 13);
+		panelRiskScore.add(separator_1);
+
+		JLabel lblVirusStat = new JLabel("Virus");
+		lblVirusStat.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblVirusStat.setBounds(380, 149, 46, 14);
+		panelRiskScore.add(lblVirusStat);
+
+		labelVirusAmountStat = new JLabel("");
+		labelVirusAmountStat.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		labelVirusAmountStat.setBounds(170, 149, 46, 14);
+		panelRiskScore.add(labelVirusAmountStat);
+
+		JLabel lblMalwareStat = new JLabel("Malware");
+		lblMalwareStat.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblMalwareStat.setBounds(380, 185, 60, 14);
+		panelRiskScore.add(lblMalwareStat);
+
+		labelMalwareAmountStat = new JLabel("");
+		labelMalwareAmountStat.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		labelMalwareAmountStat.setBounds(170, 187, 46, 14);
+		panelRiskScore.add(labelMalwareAmountStat);
+
+		panelPieChart = new JPanel();
+		panelPieChart.setBounds(390, 242, 352, 222);
+		panelRiskScore.add(panelPieChart);
+
+		JLabel lblDBConnectionStat = new JLabel("Database Connection:");
+		lblDBConnectionStat.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblDBConnectionStat.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblDBConnectionStat.setBounds(600, 493, 130, 14);
+		panelStatistics.add(lblDBConnectionStat);
+
+		JPanel panelAntivirus = new JPanel();
+		tabbedPane.addTab("Antivirus", new ImageIcon(RiskAssessmentApp.class.getResource("/antivirusTab.png")),
+				panelAntivirus, null);
+		panelAntivirus.setLayout(null);
+
+		JPanel panelRisk = new JPanel();
+		panelRisk.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		panelRisk.setBounds(0, 0, 783, 487);
+		panelAntivirus.add(panelRisk);
+		panelRisk.setLayout(null);
+
+		JPanel panelUserRisk = new JPanel();
+		panelUserRisk.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Users:",
+				TitledBorder.LEADING, TitledBorder.TOP, null, Color.GRAY));
+		panelUserRisk.setBounds(611, 101, 162, 375);
+		panelRisk.add(panelUserRisk);
+		panelUserRisk.setLayout(null);
+
+		JScrollPane scrollPaneUsers = new JScrollPane();
+		scrollPaneUsers.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneUsers.setBounds(10, 22, 144, 342);
+		panelUserRisk.add(scrollPaneUsers);
+
+		listRisksUsers = new JList<>();
+		listRisksUsers.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				if (antivirusEvents != null) {
+					updateLabels(lblCountMalware, lblShowUserSelected, "Malware");
+					updateLabels(lblCountVirus, lblShowUserSelected, "Security risk");
+				} else {
+					JOptionPane.showMessageDialog(framRisk, "No DB/File has import.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		scrollPaneUsers.setViewportView(listRisksUsers);
+		listRisksUsers.setForeground(UIManager.getColor("List.foreground"));
+		listRisksUsers.setBackground(UIManager.getColor("List.background"));
+
+		JPanel panelDetails = new JPanel();
+		panelDetails.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Details:",
+				TitledBorder.LEADING, TitledBorder.TOP, null, Color.GRAY));
+		panelDetails.setBounds(16, 101, 588, 377);
+		panelRisk.add(panelDetails);
+		panelDetails.setLayout(null);
+
+		JScrollPane scrollPaneDetails = new JScrollPane();
+		scrollPaneDetails.setBounds(6, 16, 572, 350);
+		panelDetails.add(scrollPaneDetails);
+
+		tableDetails = new JTable();
+		tableDetails.setAutoCreateRowSorter(true);
+		scrollPaneDetails.setViewportView(tableDetails);
+
+		final RiskRowPopup pop = new RiskRowPopup(tableDetails);
+
+		tableDetails.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent mouseEvent) {
+				if (SwingUtilities.isLeftMouseButton(mouseEvent)) {
+					pop.show(mouseEvent.getComponent(), mouseEvent.getX(), mouseEvent.getY());
+				}
+			}
+		});
+
+		JPanel panelUserChoosen = new JPanel();
+		panelUserChoosen.setBackground(SystemColor.scrollbar);
+		panelUserChoosen.setBorder(new EtchedBorder(EtchedBorder.RAISED, null, null));
+		panelUserChoosen.setBounds(16, 33, 588, 62);
+		panelRisk.add(panelUserChoosen);
+		panelUserChoosen.setLayout(null);
+
+		JButton btnShowDetails = new JButton("Show Details");
+		btnShowDetails.setForeground(new Color(0, 0, 0));
+		btnShowDetails.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (antivirusEvents != null) {
+					Antivirus antivirus = antivirusDAO.getAntivirusByUser(listRisksUsers.getSelectedValue());
+					fetchEventsToDetailsTable(tableDetails, antivirus.getRiskEvents());
+
+				} else {
+					JOptionPane.showMessageDialog(framRisk, "No DB/File has import.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnShowDetails.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnShowDetails.setBounds(234, 2, 120, 59);
+		panelUserChoosen.add(btnShowDetails);
+
+		JPanel panelMalware = new JPanel();
+		panelMalware.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panelMalware.setBounds(26, 11, 193, 40);
+		panelUserChoosen.add(panelMalware);
+		panelMalware.setLayout(null);
+
+		JLabel lblMalware = new JLabel("Malware:");
+		lblMalware.setForeground(new Color(255, 102, 0));
+		lblMalware.setBounds(10, 0, 100, 40);
+		panelMalware.add(lblMalware);
+		lblMalware.setFont(new Font("Tahoma", Font.BOLD, 20));
+
+		lblCountMalware = new JLabel("");
+		lblCountMalware.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblCountMalware.setBounds(105, 0, 75, 40);
+		panelMalware.add(lblCountMalware);
+		lblCountMalware.setFont(new Font("Tahoma", Font.PLAIN, 20));
+
+		JPanel panelVIrus = new JPanel();
+		panelVIrus.setLayout(null);
+		panelVIrus.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panelVIrus.setBounds(369, 11, 193, 40);
+		panelUserChoosen.add(panelVIrus);
+
+		JLabel lblVirus = new JLabel("Virus:");
+		lblVirus.setForeground(new Color(255, 0, 102));
+		lblVirus.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblVirus.setBounds(10, 0, 100, 40);
+		panelVIrus.add(lblVirus);
+
+		lblCountVirus = new JLabel("");
+		lblCountVirus.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblCountVirus.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblCountVirus.setBounds(105, 0, 75, 40);
+		panelVIrus.add(lblCountVirus);
+
+		lblShowUserSelected = new JLabel("");
+		lblShowUserSelected.setForeground(new Color(0, 0, 255));
+		lblShowUserSelected.setHorizontalAlignment(SwingConstants.CENTER);
+		lblShowUserSelected.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblShowUserSelected.setBounds(180, 7, 260, 25);
+		panelRisk.add(lblShowUserSelected);
+
+		JButton btnNewButton = new JButton("Show All Events");
+		btnNewButton.setForeground(new Color(0, 0, 0));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (antivirusEvents != null) {
+					fetchEventsToDetailsTable(tableDetails, getAllRiskEvents());
+				} else {
+					JOptionPane.showMessageDialog(framRisk, "No DB/File has import.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnNewButton.setBounds(614, 33, 159, 62);
+		panelRisk.add(btnNewButton);
+
+		lblDbStatusAntiTab = new JLabel("Offline");
+		lblDbStatusAntiTab.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblDbStatusAntiTab.setForeground(new Color(255, 0, 0));
+		lblDbStatusAntiTab.setBounds(735, 493, 45, 14);
+		panelAntivirus.add(lblDbStatusAntiTab);
+
+		JLabel lblDBConnectionAntivirus = new JLabel("Database Connection:");
+		lblDBConnectionAntivirus.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblDBConnectionAntivirus.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblDBConnectionAntivirus.setBounds(600, 493, 130, 14);
+		panelAntivirus.add(lblDBConnectionAntivirus);
+	}
+
+	void updateLabels(JLabel jAmountLabel, JLabel jUserLabel, String category) {
+
+		String user = listRisksUsers.getSelectedValue();
+		jUserLabel.setText(user);
+
+		Antivirus antivirus = antivirusDAO.getAntivirusByUser(user);
+		if (category.equals("Malware")) {
+			jAmountLabel.setText(String.valueOf(antivirus.getMalwareAmount()));
+		} else {
+			jAmountLabel.setText(String.valueOf(antivirus.getVirusAmount()));
+		}
+	}
+
+	void fetchUsersToList(JList<String> jlist) {
+		try {
+			Set<String> SetUsers = antivirusDAO.getUserList();
+			DefaultListModel<String> dlm = new DefaultListModel<>();
+
+			List<String> users = new ArrayList<>(SetUsers);
+			Collections.sort(users, String.CASE_INSENSITIVE_ORDER);
+
+			for (String user : users) {
+				dlm.addElement(user);
+			}
+			jlist.setModel(dlm);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(framRisk, "Error: " + e, "Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	void fetchEventsToDetailsTable(JTable table, List<RiskEvent> riskEventsList) {
+		RiskTableModel model = new RiskTableModel(riskEventsList);
+		table.setModel(model);
+		table.getColumnModel().getColumn(2).setPreferredWidth(320);
+	}
+
+	void loadDataFromDB() {
+		try {
+			antivirusDAO = new AntivirusDAO();
+			antivirusEvents = antivirusDAO.loadRiskEventsFromDB();
+			fetchEventsToDetailsTable(tableDetails, getAllRiskEvents());
+			fetchUsersToList(listRisksUsers);
+			lblDbStatusAntiTab.setText("Online");
+			lblDbStatusAntiTab.setForeground(new Color(0, 100, 0));
+			lblDbStatusStatTab.setText("Online");
+			lblDbStatusStatTab.setForeground(new Color(0, 100, 0));
+			labelVirusAmountStat.setText(String.valueOf(getSumOfVirusRisk()));
+			labelMalwareAmountStat.setText(String.valueOf(getSumOfMalwareRisk()));
+			creatingPieChart();
+
+		} catch (Exception exc) {
+			JOptionPane.showMessageDialog(framRisk, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public List<RiskEvent> getAllRiskEvents() {
+		List<RiskEvent> riskEvents = new ArrayList<>();
+
+		for (Entry<String, Antivirus> entry : antivirusEvents.entrySet()) {
+			for (RiskEvent riskEvent : entry.getValue().getRiskEvents()) {
+				riskEvents.add(riskEvent);
+			}
+		}
+		return riskEvents;
+	}
+
+	public int getSumOfVirusRisk() {
+		int sumVirus = 0;
+
+		for (Entry<String, Antivirus> entry : antivirusEvents.entrySet()) {
+			sumVirus += entry.getValue().getVirusAmount();
+		}
+		return sumVirus;
+	}
+
+	public int getSumOfMalwareRisk() {
+		int Malware = 0;
+
+		for (Entry<String, Antivirus> entry : antivirusEvents.entrySet()) {
+			Malware += entry.getValue().getMalwareAmount();
+		}
+		return Malware;
+	}
+
+	public void creatingPieChart() {
+
+		DefaultPieDataset dataset = new DefaultPieDataset();
+		dataset.setValue("Malware", Double.valueOf(getSumOfMalwareRisk()));
+		dataset.setValue("Virus", Double.valueOf(getSumOfVirusRisk()));
+
+		// Create chart
+		JFreeChart chart = ChartFactory.createPieChart3D("", dataset, true, true, false);
+
+//		final PiePlot3D plot = (PiePlot3D) chart.getPlot();
+//		plot.setStartAngle(270);
+//		plot.setForegroundAlpha(0.60f);
+//		plot.setInteriorGap(0.02);
+
+		panelPieChart.setLayout(new java.awt.BorderLayout());
+		ChartPanel CP = new ChartPanel(chart);
+		panelPieChart.add(CP, BorderLayout.CENTER);
+		panelPieChart.validate();
+	}
+}

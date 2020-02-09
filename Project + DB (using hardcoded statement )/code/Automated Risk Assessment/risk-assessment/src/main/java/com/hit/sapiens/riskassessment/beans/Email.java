@@ -1,0 +1,38 @@
+package com.hit.sapiens.riskassessment.beans;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Email {
+	private String userName;
+	private List<EmailRiskEvent> riskEvents;
+	
+	public Email() {
+		this("", new ArrayList<>());
+	}
+
+	public Email(String userName, List<EmailRiskEvent> riskEvents) {
+		this.userName = userName;
+		this.riskEvents = riskEvents;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public List<EmailRiskEvent> getRiskEvents() {
+		return riskEvents;
+	}
+
+	public void setRiskEvents(List<EmailRiskEvent> riskEvents) {
+		this.riskEvents = riskEvents;
+	}
+
+	public int getAmount() {
+		return riskEvents.size();
+	}
+}

@@ -1,0 +1,97 @@
+package com.hit.sapiens.riskassessment.dao;
+
+import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.TimeZone;
+
+import com.hit.sapiens.riskassessment.beans.Antivirus;
+
+/**
+ * Hello world!
+ *
+ */
+public class AntivirusDAO {
+	private Connection myConn;
+
+	public AntivirusDAO() throws Exception {
+
+		// get db properties
+		Properties props = new Properties();
+		props.load(new FileInputStream("risk_assessment.properties"));
+
+		String user = props.getProperty("user");
+		String password = props.getProperty("password");
+		String dburl = props.getProperty("dburl") + "?serverTimezone=" + TimeZone.getDefault().getID();
+
+		// connect to database
+		myConn = DriverManager.getConnection(dburl, user, password);
+
+		System.out.println("Employee DAO - DB connection successful to: " + dburl);
+	}
+
+	public Map<String, Antivirus> getAllmalwareAntivrusLogs() throws SQLException {
+		Map<String, Antivirus> malwareAntivrusLogs = new HashMap<>();
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+
+		try {
+			String sql = "SELECT User,File_Name,Category_set, count(*) AS Amount" + " FROM risk_assessment.antivirus"
+					+ " WHERE File_Name NOT LIKE '%Begin%' AND Category_set = ?" + " GROUP BY User";
+
+			myStmt = myConn.prepareStatement(sql);
+			myStmt.setString(1, "Category set: Malware");
+
+			myRs = myStmt.executeQuery();
+
+			while (myRs.next()) {
+				Antivirus Antivirus = convertRowToAntivirus(myRs);
+				malwareAntivrusLogs.put(Antivirus.getUser(), Antivirus);
+			}
+		} finally {
+			DAOUtils.close(myStmt, myRs);
+		}
+		return malwareAntivrusLogs;
+	}
+	
+	public Map<String, Antivirus> getAllSecurityRiskAntivrusLogs() throws SQLException {
+		Map<String, Antivirus> securityRiskLogs = new HashMap<>();
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+
+		try {
+			String sql = "SELECT User,File_Name,Category_set, count(*) AS Amount" + " FROM risk_assessment.antivirus"
+					+ " WHERE File_Name NOT LIKE '%Begin%' AND Category_set = ?" + " GROUP BY User";
+
+			myStmt = myConn.prepareStatement(sql);
+			myStmt.setString(1, "Category set: SecurityRisk");
+
+			myRs = myStmt.executeQuery();
+
+			while (myRs.next()) {
+				Antivirus Antivirus = convertRowToAntivirus(myRs);
+				securityRiskLogs.put(Antivirus.getUser(), Antivirus);
+			}
+		} finally {
+			DAOUtils.close(myStmt, myRs);
+		}
+		return securityRiskLogs;
+	}
+
+	private Antivirus convertRowToAntivirus(ResultSet myRs) throws SQLException {
+
+		String user = myRs.getString("User").substring(6);
+		String fileName = myRs.getString("File_Name");
+		String category = myRs.getString("Category_set").substring(14);
+		int amount = myRs.getInt("Amount");
+
+		return new Antivirus(user, fileName, category, amount);
+	}
+}

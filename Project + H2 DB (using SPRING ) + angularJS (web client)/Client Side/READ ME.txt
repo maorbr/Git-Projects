@@ -1,0 +1,4 @@
+Angular (client side):
+After download project (src folder) from Google Drive please preform these command in terminal:
+ng serve
+Angular page: http://localhost:4200/

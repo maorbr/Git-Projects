@@ -1,0 +1,40 @@
+1567414833291	Rename package 'com.hit.sapiens.riskassessment'
+1567414887775	Rename type 'App'
+1567425719484	Delete element
+1567425743566	Rename type 'RiskAssessmentApp'
+1567427322041	Delete elements
+1567437716918	Move file
+1567437722089	Delete element
+1567505243960	Rename local variable 'antivirusDAO'
+1567505251588	Rename local variable 'tableVirus'
+1567505263869	Rename method 'fetchVirusEvents'
+1567534953241	Rename field 'myConn'
+1567534979139	Rename field 'myConnection'
+1567534990566	Rename field 'connectionDB'
+1567535022653	Rename local variable 'myStmt'
+1567535037714	Rename local variable 'myRs'
+1567535626320	Rename local variable 'myRs'
+1567616453881	Encapsulate field 'virusName'
+1567694161859	Rename type 'Virus'
+1567694189974	Encapsulate field 'virusEvent'
+1567695311674	Rename local variable 'securityRiskLogs'
+1567703768667	Rename type 'VirusEvent'
+1567763811363	Rename field 'riskEvents'
+1567763959370	Delete element
+1567764382012	Rename local variable 'list'
+1567765041304	Rename local variable 'list'
+1567769125403	Rename method 'getAllRiskEvents'
+1567843820798	Rename type 'RowPopup'
+1567844351339	Delete element
+1567856441199	Delete element
+1567856510491	Rename resource 'Actions-help-about-icon .png'
+1567856538128	Delete element
+1567856539887	Delete element
+1567856542138	Delete element
+1567856913002	Delete element
+1567857240259	Delete element
+1567857646313	Delete element
+1567857811635	Delete element
+1567860226881	Rename type 'RiskPieChart'
+1567861904150	Delete element
+1567864505100	Delete element

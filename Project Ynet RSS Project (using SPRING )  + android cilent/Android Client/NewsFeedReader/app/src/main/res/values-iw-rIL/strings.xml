@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">מבזקי חדשות Ynet</string>
+    <string name="ynet_title">מבזקי חדשות Ynet</string>
+    <string name="fetch_news_btn">הצג חדשות</string>
+    <string name="by_author_btn">חפש לפי כותב</string>
+    <string name="exit_btn">יציאה</string>
+    <string name="author_hint_tb">הכנס שם כותב</string>
+    <string name="dialog_quit_toast">!אתה לא תתחרט</string>
+    <string name="dialog_quit_title_show">לאשר יציאה</string>
+    <string name="dialog_quit_yes">כן</string>
+    <string name="dialog_quit_message">\?אתה בטוח שאתה רוצה לצאת</string>
+    <string name="dialog_quit_no">לא</string>
+</resources>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Ynet Breaking News</string>
+    <string name="ynet_title">Ynet Breaking News</string>
+    <string name="fetch_news_btn">Show News</string>
+    <string name="by_author_btn">Find By Author</string>
+    <string name="exit_btn">Exit</string>
+    <string name="author_hint_tb">Enter author name</string>
+    <string name="dialog_quit_title_show">Confirm exit</string>
+    <string name="dialog_quit_toast">You will not regret it!</string>
+    <string name="dialog_quit_yes">Yes</string>
+    <string name="dialog_quit_message">Are you sure you want to exit?</string>
+    <string name="dialog_quit_no">No</string>
+</resources>

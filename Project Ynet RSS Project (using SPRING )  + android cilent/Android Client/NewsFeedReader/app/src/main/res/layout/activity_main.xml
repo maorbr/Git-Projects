@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGray"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:gravity="center"
+        android:text="@string/ynet_title"
+        android:textColor="@color/colorStrongRed"
+        android:textSize="40sp"
+        android:fontFamily="sans-serif-black"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:src="@drawable/ynet_logo" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="15"
+        android:text="@string/fetch_news_btn"
+        android:textAllCaps="false"
+        android:textSize="25sp"
+        android:background="@color/colorRed"
+        android:textColor="@color/colorWhite"
+        android:id="@+id/show_news_btn"
+
+/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="6">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:hint="@string/author_hint_tb"
+            android:textColorHint="@color/colorGray2"
+            android:textSize="20sp"
+            android:textAllCaps="false"
+            android:id="@+id/show_news_tv"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="@string/by_author_btn"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:background="@color/colorRed"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/colorWhite"
+            android:id="@+id/by_author_btn"
+            android:padding="2dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="2"
+        android:text="@string/exit_btn"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:background="@color/colorGray3"
+        android:textColor="@color/colorWhite"
+        android:id="@+id/exit_btn" />
+
+</LinearLayout>

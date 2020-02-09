@@ -1,0 +1,11 @@
+C:\Users\maorb\Desktop\Hagasha Matala 3\A19 Ex02 MaorBracha 302679865 AmitEdri 315793794\A19 Ex01 Maor 302679865 Amit 315793794\obj\Debug\A19 Ex01 Maor 302679865 Amit 315793794.csprojAssemblyReference.cache
+C:\Users\maorb\Desktop\Hagasha Matala 3\A19 Ex02 MaorBracha 302679865 AmitEdri 315793794\A19 Ex01 Maor 302679865 Amit 315793794\obj\Debug\A19_Ex01_Maor_302679865_Amit_315793794.LoginForm.resources
+C:\Users\maorb\Desktop\Hagasha Matala 3\A19 Ex02 MaorBracha 302679865 AmitEdri 315793794\A19 Ex01 Maor 302679865 Amit 315793794\obj\Debug\A19_Ex01_Maor_302679865_Amit_315793794.MainForm.resources
+C:\Users\maorb\Desktop\Hagasha Matala 3\A19 Ex02 MaorBracha 302679865 AmitEdri 315793794\A19 Ex01 Maor 302679865 Amit 315793794\obj\Debug\A19_Ex01_Maor_302679865_Amit_315793794.Properties.Resources.resources
+C:\Users\maorb\Desktop\Hagasha Matala 3\A19 Ex02 MaorBracha 302679865 AmitEdri 315793794\A19 Ex01 Maor 302679865 Amit 315793794\obj\Debug\A19 Ex01 Maor 302679865 Amit 315793794.csproj.GenerateResource.cache
+C:\Users\maorb\Desktop\Hagasha Matala 3\A19 Ex02 MaorBracha 302679865 AmitEdri 315793794\A19 Ex01 Maor 302679865 Amit 315793794\bin\Debug\A19 Ex01 Maor 302679865 Amit 315793794.exe.config
+C:\Users\maorb\Desktop\Hagasha Matala 3\A19 Ex02 MaorBracha 302679865 AmitEdri 315793794\A19 Ex01 Maor 302679865 Amit 315793794\bin\Debug\A19 Ex01 Maor 302679865 Amit 315793794.exe
+C:\Users\maorb\Desktop\Hagasha Matala 3\A19 Ex02 MaorBracha 302679865 AmitEdri 315793794\A19 Ex01 Maor 302679865 Amit 315793794\bin\Debug\A19 Ex01 Maor 302679865 Amit 315793794.pdb
+C:\Users\maorb\Desktop\Hagasha Matala 3\A19 Ex02 MaorBracha 302679865 AmitEdri 315793794\A19 Ex01 Maor 302679865 Amit 315793794\obj\Debug\A19 Ex01 Maor 302679865 Amit 315793794.csproj.CopyComplete
+C:\Users\maorb\Desktop\Hagasha Matala 3\A19 Ex02 MaorBracha 302679865 AmitEdri 315793794\A19 Ex01 Maor 302679865 Amit 315793794\obj\Debug\A19 Ex01 Maor 302679865 Amit 315793794.exe
+C:\Users\maorb\Desktop\Hagasha Matala 3\A19 Ex02 MaorBracha 302679865 AmitEdri 315793794\A19 Ex01 Maor 302679865 Amit 315793794\obj\Debug\A19 Ex01 Maor 302679865 Amit 315793794.pdb

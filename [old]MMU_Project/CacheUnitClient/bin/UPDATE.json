@@ -1,0 +1,6 @@
+{ "headers":
+ {"action":"UPDATE"},
+ "body":
+[{"id":1,
+"content":"blue"}]
+}

@@ -1,0 +1,45 @@
+<div class="container custom-container-2">
+
+  <!-- Show only if there are items -->
+  <div class="no-data text-center" *ngIf="Item.length == 0">
+    <p>There is no item added yet!</p>
+    <button class="btn btn-outline-primary" routerLink="/create-item">Add Item</button>
+  </div>
+
+  <!-- if there is no item table is hide -->
+  <div *ngIf="Item.length !== 0">
+    <h3 class="header">List of Inventory items</h3>
+    <br>
+    <span class="AddItem" routerLink="/create-item">Add Item</span>
+    <br>
+    <br>
+    <div class="col-md-12">
+      <table class="blueTable">
+        <thead>
+          <tr>
+            <th scope="col">Item no</th>
+            <th scope="col">Name</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Inventory Code</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of Item">
+            <td>{{item.itemNo}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.amount}}</td>
+            <td>{{item.inventoryCode}}</td>
+            <td>
+              <span class="Update" routerLink="/item-edit/{{item.itemNo}}">Update</span>
+              <span class="delete" (click)="deleteItem(item.itemNo)">Delete</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+<br>

@@ -1,0 +1,41 @@
+ERROR: duplicated declaration of the same name: ABCd_efg within same scope in line 6
+ERROR: use of undeclared identifier: "id", at line: 8.
+ERROR: use of undeclared identifier: "i_j_k", at line: 8.
+ERROR: use of undeclared identifier: "varname_0_0", at line: 9.
+ERROR: duplicated declaration of the same name: i_j_k within same scope in line 11
+ERROR: duplicated declaration of the same name: ] within same scope in line 13
+ERROR: duplicated declaration of the same name: ] within same scope in line 13
+ERROR: expression can't refer to entire array, identifier: "ABCd_efg" at line 17.
+ERROR: use of undeclared identifier: "varname_0_0", at line: 23.
+ERROR: use of undeclared identifier: "i_j_k", at line: 23.
+ERROR: use of undeclared identifier: "varname_0_0", at line: 23.
+ERROR: expression can't refer to entire array, identifier: "ABCd_efg" at line 23.
+ERROR: expression can't refer to entire array, identifier: "ABCd_efg" at line 23.
+ERROR: return type is incompatible at line: 23.
+ERROR: use of undeclared identifier: "funcname", at line: 25.
+ERROR: use of undeclared identifier: "func_ABCd_efg", at line: 26.
+ERROR: use of undeclared identifier: "]", at line: 26.
+ERROR: use of undeclared identifier: "name_name", at line: 26.
+ERROR: use of undeclared identifier: "tmp", at line: 26.
+ERROR: use of undeclared identifier: "]", at line: 26.
+ERROR: duplicated declaration of the same name: tmp within same scope in line 32
+ERROR: duplicated declaration of the same name: name_name within same scope in line 33
+ERROR: duplicated declaration of the same name: ] within same scope in line 33
+ERROR: expression can't refer to entire array, identifier: "varname" at line 35.
+ERROR: access to array: "varname", at index 121314 is illegal, index is out of array bounds, at line: 35.
+ERROR: incorrect assignment types are different, at line:36.
+ERROR: duplicated declaration of the same name: ABCd_efg within same scope in line 39
+ERROR: duplicated declaration of the same name: ] within same scope in line 39
+ERROR: duplicated declaration of the same name: ] within same scope in line 39
+ERROR: duplicated declaration of the same name: tmp within same scope in line 39
+ERROR: use of undeclared identifier: "id", at line: 39.
+ERROR: use of undeclared identifier: "id", at line: 39.
+ERROR: duplicated declaration of the same name: tmp within same scope in line 41
+ERROR: duplicated declaration of the same name: id within same scope in line 42
+ERROR: duplicated declaration of the same name: ] within same scope in line 42
+ERROR: duplicated declaration of the same name: tmp within same scope in line 42
+ERROR: duplicated declaration of the same name: ] within same scope in line 42
+ERROR: duplicated declaration of the same name: i_j_k within same scope in line 45
+ERROR: return type is incompatible at line: 48.
+ERROR: expression can't refer to entire array, identifier: "ABCd_efg" at line 49.
+ERROR: assignment of type array is illegal, identifier: "ABCd_efg", at line: 50.

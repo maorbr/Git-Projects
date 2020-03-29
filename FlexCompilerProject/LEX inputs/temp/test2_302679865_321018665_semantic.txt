@@ -1,0 +1,44 @@
+ERROR: duplicated declaration of the same name: varname2 within same scope in line 4
+ERROR: duplicated declaration of the same name: ABCd_efg within same scope in line 7
+ERROR: access to array: "intArr", at index 20 is illegal, index is out of array bounds, at line: 12.
+ERROR: use of undeclared identifier: "id", at line: 13.
+ERROR: use of undeclared identifier: "idx", at line: 14.
+ERROR: incorrect assignment types are different, at line:14.
+ERROR: use of undeclared identifier: "idy", at line: 15.
+ERROR: incorrect assignment types are different, at line:15.
+ERROR: use of undeclared identifier: "idz", at line: 16.
+ERROR: assignment of type array is illegal, identifier: "varname_4_4", at line: 18.
+ERROR: identifier: "tmp123" is not kind of array type, at line: 19.
+ERROR: expression can't refer to entire array, identifier: "intArr" at line 20.
+ERROR: incorrect assignment types are different, at line:22.
+ERROR: incorrect assignment types are different, at line:29.
+ERROR: incorrect assignment types are different, at line:30.
+ERROR: incorrect assignment types are different, at line:31.
+ERROR: incorrect assignment types are different, at line:32.
+ERROR: incorrect assignment types are different, at line:33.
+ERROR: identifier: "intArr" is not kind of array type, at line: 45.
+ERROR: use of undeclared identifier: "undefined_id", at line: 46.
+ERROR: incorrect assignment types are different, at line:46.
+ERROR: return type is incompatible at line: 51.
+ERROR: use of undeclared identifier: "boo2", at line: 59.
+ERROR: return type is incompatible at line: 60.
+ERROR: use of undeclared identifier: "boo", at line: 72.
+ERROR: use of undeclared identifier: "boo", at line: 73.
+ERROR: use of undeclared identifier: "exp", at line: 79.
+ERROR: duplicated declaration of the same name: w within same scope in line 83
+ERROR: use of undeclared identifier: "exp2", at line: 85.
+ERROR: use of undeclared identifier: "exp2", at line: 86.
+ERROR: duplicated declaration of the same name: tmp within same scope in line 90
+ERROR: duplicated declaration of the same name: ABCd_efg within same scope in line 90
+ERROR: duplicated declaration of the same name: ] within same scope in line 90
+ERROR: duplicated declaration of the same name: tmp within same scope in line 95
+ERROR: duplicated declaration of the same name: tmp within same scope in line 95
+ERROR: duplicated declaration of the same name: a within same scope in line 100
+ERROR: duplicated declaration of the same name: a within same scope in line 105
+ERROR: duplicated declaration of the same name: b within same scope in line 105
+ERROR: use of undeclared identifier: "exp2", at line: 110.
+ERROR: use of undeclared identifier: "exp", at line: 112.
+ERROR: return type is incompatible at line: 113.
+ERROR: use of undeclared identifier: "exp2", at line: 116.
+ERROR: return type is incompatible at line: 118.
+ERROR: return type is incompatible at line: 120.

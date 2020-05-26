@@ -1,0 +1,5 @@
+package gcov.utils;
+
+public class RegexTool {
+
+}

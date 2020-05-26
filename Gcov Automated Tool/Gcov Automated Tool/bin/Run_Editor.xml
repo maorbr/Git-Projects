@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>C:\Users\e014241\Desktop\GCOV Coverage Tasks\Gcov Automated Tool\bin\GcovAutomatedTool.jar</jar>
+  <outfile>C:\Users\e014241\Desktop\GCOV Coverage Tasks\Gcov Automated Tool\bin\GcovAutomatedTool.exe</outfile>
+  <errTitle>You have to download the newest Java Version</errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>C:\Users\e014241\Downloads\settings.ico</icon>
+  <singleInstance>
+    <mutexName>singleGcovAutomatedTool</mutexName>
+    <windowTitle></windowTitle>
+  </singleInstance>
+  <jre>
+    <path></path>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion>1.8.0_111</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <runtimeBits>64/32</runtimeBits>
+  </jre>
+  <versionInfo>
+    <fileVersion>1.2.0.0</fileVersion>
+    <txtFileVersion>1.2RC</txtFileVersion>
+    <fileDescription>Coverage process, the code coverage is based on GCC capability to instrument the code running on the target, with code coverage counters.</fileDescription>
+    <copyright>Maor.Bracha@elbitsystems.com</copyright>
+    <productVersion>1.2.0.0</productVersion>
+    <txtProductVersion>1.2RC</txtProductVersion>
+    <productName>Gcov Automated Tool</productName>
+    <companyName>Elbit</companyName>
+    <internalName>Elbit</internalName>
+    <originalFilename>GcovAutomatedTool.exe</originalFilename>
+    <trademarks></trademarks>
+    <language>ENGLISH_US</language>
+  </versionInfo>
+</launch4jConfig>

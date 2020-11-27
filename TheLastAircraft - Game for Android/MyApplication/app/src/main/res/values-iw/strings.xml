@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_text">מטוס הקרב האחרון</string>
+    <string name="game_over">המשחק הסתיים</string>
+    <string name="app_name">מטוס הקרב האחרון</string>
+    <string name="Best_score">:הניקוד הכי גבוה</string>
+    <string name="return_btn">חזור לתפריט הראשי</string>
+    <string name="coins_name">מטבע זהב</string>
+    <string name="angle_spanner_name">פלייר קסמים</string>
+    <string name="treasure_name">תיבת אוצר</string>
+    <string name="gem_name">יהלום מבריק</string>
+    <string name="rocket_name">טיל נפץ</string>
+    <string name="deadly_rocket_name">טיל המוות</string>
+    <string name="touch_name">\'טאצ</string>
+    <string name="Your_score">:הניקוד שלך</string>
+    <string name="coin_info">מעניק 5 נקודות</string>
+    <string name="gem_info">מעניק 50 נקודות</string>
+    <string name="treasure_info">מעניק 200 נקדות</string>
+    <string name="rocket_info">לוקח 1 חיים</string>
+    <string name="deadly_rocket_info">לוקח את כל החיים</string>
+    <string name="touch_info">".מטרת המשחק לאסוף כמה שיותר אוצרות ולהתחמק מטילים "</string>
+    <string name="action_menu_option">בחר</string>
+    <string name="share_menu">שתף את הניקוד שלך</string>
+    <string name="action_menu_sound_disable">השתק קול רקע</string>
+    <string name="action_menu_sound_enable">הפעל קול רקע</string>
+    <string name="angle_spanner_info" translatable="false">מרפא את כל החיים</string>
+    <string name="dialog_quit_message">\?אתה בטוח שאתה רוצה לצאת</string>
+    <string name="dialog_quit_title_show">לאשר יציאה</string>
+    <string name="dialog_quit_yes">כן</string>
+    <string name="dialog_quit_no">לא</string>
+    <string name="dialog_quit_toast">!אתה לא תתחרט</string>
+    <string name="game_speed_up">!!המהירות עלתה</string>
+    <string name="game_game_over">המשחק הסתיים !</string>
+    <string name="game_dialog_quit_message">\?אתה בטוח שאתה רוצה לחזור לתפריט הראשי</string>
+    <string name="about_btn">\@ המשחק נוצר ע\"י מאור ברכה</string>
+</resources>

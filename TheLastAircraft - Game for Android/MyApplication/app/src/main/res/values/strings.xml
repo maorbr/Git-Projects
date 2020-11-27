@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">The Last Aircraft</string>
+    <string name="menu_text">The Last Aircraft</string>
+    <string name="game_over">GAME OVER</string>
+    <string name="Your_score">Your score:</string>
+    <string name="Best_score">Best score:</string>
+    <string name="return_btn">Return to main menu</string>
+    <string name="touch_name">touch_info</string>
+    <string name="coins_name">Gold coin</string>
+    <string name="gem_name">Shiny jem</string>
+    <string name="angle_spanner_name">Angle spanner</string>
+    <string name="treasure_name">Treasure box</string>
+    <string name="rocket_name">Explosive missile</string>
+    <string name="deadly_rocket_name">Deadly missile</string>
+    <string name="touch_info">"The goal of the game is to collect as many treasures as possible and avoid the missiles."</string>
+    <string name="coin_info">earn 5 points.</string>
+    <string name="gem_info">earn 50 points.</string>
+    <string name="angle_spanner_info">recover to full life</string>
+    <string name="treasure_info">earn 200 points.</string>
+    <string name="rocket_info">take 1 life.</string>
+    <string name="deadly_rocket_info">take all life.</string>
+    <string name="action_menu_option">Choose your option</string>
+    <string name="share_menu">Share your score</string>
+    <string name="action_menu_sound_disable">"Mute background's music "</string>
+    <string name="action_menu_sound_enable">Play background\'s music</string>
+    <string name="dialog_quit_message">Are you sure you want to exit?</string>
+    <string name="dialog_quit_title_show">Confirm exit</string>
+    <string name="dialog_quit_yes">Yes</string>
+    <string name="dialog_quit_no">No</string>
+    <string name="game_speed_up">speed increased !!!</string>
+    <string name="dialog_quit_toast">You will not regret it!</string>
+    <string name="game_game_over">Game Over!</string>
+    <string name="game_dialog_quit_message">Are you sure you want to back to main menu?</string>
+    <string name="about_btn">\@ Game Created By Maor Bracha</string>
+
+</resources>

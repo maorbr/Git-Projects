@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gameoverbackground"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".GameOverActivity">
+
+    <TextView
+        android:id="@+id/aircraftTextMenuGameOver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1.5"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:text="@string/game_over"
+        android:textColor="@color/Yellow"
+        android:textSize="58sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/TextMenuYourScore_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:text="@string/Your_score"
+        android:textColor="@color/Green"
+        android:textSize="44sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/TextMenuYourScore_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="1"
+        android:fontFamily="sans-serif-smallcaps"
+        android:gravity="center"
+        android:textColor="@color/White"
+        android:textSize="60sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/TextMenuBestScore_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:text="@string/Best_score"
+        android:textColor="@color/Pink"
+        android:textSize="44sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/TextMenuBestScore_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:fontFamily="casual"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+</LinearLayout>
